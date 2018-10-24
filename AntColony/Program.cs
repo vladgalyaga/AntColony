@@ -17,7 +17,9 @@ namespace AntColony
             //double distanceTo = geoLondon.GetDistanceTo(geoMoskow);
             //Console.WriteLine("Расстояние от Москвы до Лондона = {0:F} км.", distanceTo / 1000);]
             //  var result = new CSVParser().ParseCities("Switzerland");
-            var a = new Controller();
+            var controller = new Controller();
+            var result = controller.GetBestWays();
+            Console.WriteLine(result.Sum(x => x.Distance));
             Console.ReadKey();
         }
     }

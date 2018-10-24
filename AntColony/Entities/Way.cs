@@ -10,7 +10,7 @@ namespace AntColony.Entities
     {
         public City[] Cities { get; }
         public double Distance { get; set; }
-        public double Feromon { get; set; }
+        public double Feromon { get; set; } = 1;
 
         public Way()
         {

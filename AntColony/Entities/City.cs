@@ -12,7 +12,7 @@ namespace AntColony.Entities
         public string Name { get; set; }
         public GeoCoordinate GeoCoordinate { get; set; }
 
-        public City(string name ,GeoCoordinate geoCoordinate)
+        public City(string name, GeoCoordinate geoCoordinate)
         {
             GeoCoordinate = geoCoordinate;
             Name = name;
