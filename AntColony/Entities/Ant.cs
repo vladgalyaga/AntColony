@@ -25,15 +25,11 @@ namespace AntColony.Entities
 
         public List<Way> GetBetsPath()
         {
-            City city = null;
             var lastCity = StartCity;
-
-            var tmp = ChouseWay(lastCity).Cities;
-            lastCity = tmp.First(x => x != lastCity);
+            lastCity = ChouseWay(lastCity).Cities.First(x => x != lastCity);
             while (lastCity != StartCity)
             {
-                tmp = ChouseWay(lastCity).Cities;
-                lastCity = tmp.First(x => x != lastCity);
+                lastCity = ChouseWay(lastCity).Cities.First(x => x != lastCity);
             }
 
             var summOfDistance = TraveledWays.Sum(x => x.Distance);
