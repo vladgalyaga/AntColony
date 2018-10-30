@@ -15,7 +15,7 @@ namespace AntColony
         
         public Controller()
         {
-            Cities = new CSVParser().ParseCities("Switzerland");
+            Cities = new CSVParser().ParseCities(Setting.FileName);
             FillWays();
         }
 
