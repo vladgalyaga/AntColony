@@ -13,6 +13,7 @@ namespace AntColony.Entities
         public List<Way> AllWays { get; set; }
         public City StartCity { get; set; }
         public double FeromomForOneWay { get; set; }
+        public double SummOfDistance { get; set; }
 
         private Random _random = new Random();
 
@@ -32,8 +33,8 @@ namespace AntColony.Entities
                 lastCity = ChouseWay(lastCity).Cities.First(x => x != lastCity);
             }
 
-            var summOfDistance = TraveledWays.Sum(x => x.Distance);
-            FeromomForOneWay = Setting.PheromonCountOfOneAnt / summOfDistance;
+            SummOfDistance = TraveledWays.Sum(x => x.Distance);
+            FeromomForOneWay = Setting.PheromonCountOfOneAnt / SummOfDistance;
             TraveledWays.ForEach(x => x.Feromon += FeromomForOneWay);
 
             return TraveledWays;

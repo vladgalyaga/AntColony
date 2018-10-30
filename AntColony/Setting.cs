@@ -9,9 +9,10 @@ namespace AntColony
     public class Setting
     {
         public static int DegreeOfPheromone { get; set; } = 10;
-        public static double DegreeOfDistance { get; set; } = 1;
+        public static double DegreeOfDistance { get; set; } = 7;
         public static double PheromonCountOfOneAnt { get; set; } = 1000;
         public static double CountOfAnt { get; set; } = 10000000;
+        public static int MemoryCount = 15;
 
     }
 }

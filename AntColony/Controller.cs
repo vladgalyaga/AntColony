@@ -12,7 +12,7 @@ namespace AntColony
     {
         public List<Way> Ways { get; set; }
         public List<City> Cities { get; set; }
-
+        
         public Controller()
         {
             Cities = new CSVParser().ParseCities("Switzerland");
@@ -32,22 +32,28 @@ namespace AntColony
         }
         public List<Way> GetBestWays()
         {
+            Ant luckyAnt = new Ant(null, null) {SummOfDistance = Double.MaxValue };
             List<Way> result = null;
-            Queue<Ant> colonyMemory = new Queue<Ant>(Setting.DegreeOfPheromone);
-
+            Queue<Ant> colonyMemory = new Queue<Ant>(Setting.MemoryCount);
+            object locker = new object();
             for (int i = 0; i < Setting.CountOfAnt; i++)
             {
                 Ant ant = new Ant(Ways, Cities.First());
                 result = ant.GetBetsPath();
+
                 colonyMemory.Enqueue(ant);
-                Console.WriteLine(result.Sum(x => x.Distance));
-                if (colonyMemory.Count > Setting.DegreeOfPheromone)
+                
+                if (luckyAnt.SummOfDistance > ant.SummOfDistance)
+                    luckyAnt = ant;
+
+                Console.WriteLine(ant.SummOfDistance);
+                Console.WriteLine(luckyAnt.SummOfDistance);
+
+                if (colonyMemory.Count > Setting.MemoryCount)
                 {
                     var oldAnt = colonyMemory.Peek();
                     oldAnt.Dispose();
-
                 }
-
             }
             return result;
         }
