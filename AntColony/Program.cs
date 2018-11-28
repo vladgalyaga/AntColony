@@ -12,14 +12,21 @@ namespace AntColony
     {
         static void Main(string[] args)
         {
-            //GeoCoordinate geoLondon = new GeoCoordinate(51.3, -0.1);
-            //GeoCoordinate geoMoskow = new GeoCoordinate(55.45, 37.36);
-            //double distanceTo = geoLondon.GetDistanceTo(geoMoskow);
-            //Console.WriteLine("Расстояние от Москвы до Лондона = {0:F} км.", distanceTo / 1000);]
-            //  var result = new CSVParser().ParseCities("Switzerland");
             var controller = new Controller();
             var result = controller.GetBestWays();
+
+            var city = result.First().Cities.First();
+            Console.WriteLine(city.Name);
+            result.ForEach(x =>
+            {
+                
+                Console.WriteLine(x.Cities.First(c => c != city).Name);
+                city = x.Cities.First(c => c != city);
+            }
+            );
+
             Console.WriteLine(result.Sum(x => x.Distance));
+
             Console.ReadKey();
         }
     }

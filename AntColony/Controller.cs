@@ -32,13 +32,13 @@ namespace AntColony
         }
         public List<Way> GetBestWays()
         {
-            Ant luckyAnt = new Ant(null, null) {SummOfDistance = Double.MaxValue };
+            Ant luckyAnt = new Ant(null, null, 0) {SummOfDistance = Double.MaxValue };
             List<Way> result = null;
             Queue<Ant> colonyMemory = new Queue<Ant>(Setting.MemoryCount);
             object locker = new object();
             for (int i = 0; i < Setting.CountOfAnt; i++)
             {
-                Ant ant = new Ant(Ways, Cities.First());
+                Ant ant = new Ant(Ways, Cities.First(), Cities.Count);
                 result = ant.GetBetsPath();
 
                 colonyMemory.Enqueue(ant);

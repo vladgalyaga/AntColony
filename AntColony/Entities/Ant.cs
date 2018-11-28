@@ -14,13 +14,15 @@ namespace AntColony.Entities
         public City StartCity { get; set; }
         public double FeromomForOneWay { get; set; }
         public double SummOfDistance { get; set; }
+        public int _cityCount { get; set; }
 
         private Random _random = new Random();
 
-        public Ant(List<Way> allWays, City startCity)
+        public Ant(List<Way> allWays, City startCity, int cityCount)
         {
             StartCity = startCity;
             AllWays = allWays;
+            _cityCount = cityCount;
         }
 
 
@@ -28,7 +30,7 @@ namespace AntColony.Entities
         {
             var lastCity = StartCity;
             lastCity = ChouseWay(lastCity).Cities.First(x => x != lastCity);
-            while (lastCity != StartCity)
+            while (_cityCount != VisitedCities.Count)
             {
                 lastCity = ChouseWay(lastCity).Cities.First(x => x != lastCity);
             }
@@ -50,34 +52,34 @@ namespace AntColony.Entities
             Way enteredWay = null;
 
 
-            var a = AllWays.Where(w => w.Cities.Any(c => c == currentCity)).ToList();
-            var b = a.Where(w => w.Cities.Any(c => !VisitedCities.Contains(c))).ToList();
+            // var a = AllWays.Where(w => w.Cities.Any(c => c == currentCity)).ToList();
+            // var b = a.Where(w => w.Cities.Any(c => !VisitedCities.Contains(c))).ToList();
 
-            var possibleWays = AllWays.Where(w => w.Cities.Any(c => c == currentCity) &&
-                                        !w.Cities.Any(c => VisitedCities.Contains(c))).ToList();
-            if (possibleWays.Count == 0)
+            var possibleWays = AllWays.Where(w => w.Cities.Any(c => c == currentCity)/*).ToList();*/
+                    && !TraveledWays.Contains(w)).ToList();
+            //if (possibleWays.Count == 0)
+            //{
+            //    enteredWay = AllWays.First(w => w.Cities.Any(c => c == currentCity) && w.Cities.Any(c => c == StartCity));
+            //}
+            //else
+            //{
+            var summOfAttractiveness = possibleWays.Sum(x => x.GetAttractiveness());
+
+            Dictionary<double, Way> ranges = new Dictionary<double, Way>();
+            double lastValue = 0;
+
+            possibleWays.ForEach(x =>
             {
-                enteredWay = AllWays.First(w => w.Cities.Any(c => c == currentCity) && w.Cities.Any(c => c == StartCity));
-            }
-            else
-            {
-                var summOfAttractiveness = possibleWays.Sum(x => x.GetAttractiveness());
+                lastValue += x.GetAttractiveness() / summOfAttractiveness;
+                if (!ranges.Keys.Contains(lastValue))
+                    ranges.Add(lastValue, x);
+            });
 
-                Dictionary<double, Way> ranges = new Dictionary<double, Way>();
-                double lastValue = 0;
+            var rndValue = _random.NextDouble();
+            var keyEnteredWay = ranges.Keys.Where(x => x > rndValue).Min();
+            enteredWay = ranges[keyEnteredWay];
 
-                possibleWays.ForEach(x =>
-                {
-                    lastValue += x.GetAttractiveness() / summOfAttractiveness;
-                    if (!ranges.Keys.Contains(lastValue))
-                        ranges.Add(lastValue, x);
-                });
-
-                var rndValue = _random.NextDouble();
-                var keyEnteredWay = ranges.Keys.Where(x => x > rndValue).Min();
-                enteredWay = ranges[keyEnteredWay];
-
-            }
+            //}
             if (!VisitedCities.Contains(currentCity))
                 VisitedCities.Add(currentCity);
             TraveledWays.Add(enteredWay);
