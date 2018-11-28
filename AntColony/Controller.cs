@@ -41,7 +41,8 @@ namespace AntColony
                 Ant ant = new Ant(Ways, Cities.First(), Cities.Count);
                 result = ant.GetBetsPath();
 
-                colonyMemory.Enqueue(ant);
+                if (luckyAnt.SummOfDistance >= ant.SummOfDistance)
+                    colonyMemory.Enqueue(ant);
                 
                 if (luckyAnt.SummOfDistance > ant.SummOfDistance)
                     luckyAnt = ant;
