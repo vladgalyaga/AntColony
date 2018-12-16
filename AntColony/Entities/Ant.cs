@@ -52,18 +52,10 @@ namespace AntColony.Entities
             Way enteredWay = null;
 
 
-            // var a = AllWays.Where(w => w.Cities.Any(c => c == currentCity)).ToList();
-            // var b = a.Where(w => w.Cities.Any(c => !VisitedCities.Contains(c))).ToList();
-
             var possibleWays = AllWays.Where(w => w.Cities.Any(c => c == currentCity)/*).ToList();*/
                     && !TraveledWays.Contains(w)).ToList();
-            //if (possibleWays.Count == 0)
-            //{
-            //    enteredWay = AllWays.First(w => w.Cities.Any(c => c == currentCity) && w.Cities.Any(c => c == StartCity));
-            //}
-            //else
-            //{
-            var summOfAttractiveness = possibleWays.Sum(x => x.GetAttractiveness());
+
+           var summOfAttractiveness = possibleWays.Sum(x => x.GetAttractiveness());
 
             Dictionary<double, Way> ranges = new Dictionary<double, Way>();
             double lastValue = 0;
